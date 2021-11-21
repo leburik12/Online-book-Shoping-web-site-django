@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block title %}The single book page{% endblock %}
+{% block another_link %}
+<link href="{% static 'css/detail_book_style.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+   <div class="detail_wrapper row" id="detail_wrap">
+       <div class="books_detail col-md-7 col-xs-12">
+           <div class="image_reviews_detail">
+               <div class="mr-3 ">
+                  <img src="{{ object.book_image.url }}">
+               </div>
+               <div class=" book-title-so">
+                   <h5>{{ object.title }}</h5><span> {{ object.new_book_hardcover_qty }}<span> - hardcover</span></span>
+                   <p>{{ object.created }}</p>
+                   <p>By <a style="color: blue" href="{% url 'books:books_by_author' object.author %}">{{ object.author }}</a></p>
+                   <p>
+                       <i class="fa fa-star"></i>
+                       <i class="fa fa-star"></i>
+                       <i class="fa fa-star"></i>
+                       <i class="fa fa-star"></i>
+                       <span> 4.5 ratings</span>
+                   </p>
+                   <div class="rating_form">
+                  <form>
+                         <label class="">
+                             5 Star
+                         </label>
+                          <input class="" type="radio" name="rate" value="5">
+                         <label class="">
+                             4 Star
+                         </label>
+                          <input class="" type="radio" name="rate" value="4">
+                         <label class="">
+                            3 Star
+                         </label>
+                          <input class="" type="radio" name="rate" value="3">
+                         <label class="">
+                              2 Star
+                         </label>
+                          <input class="" type="radio" name="rate" value="2">
+                         <label class="">
+                          1 Star
+                         </label>
+                          <input class="" type="radio" name="rate" value="1">
+                          <label class="">
+                          None
+                         </label>
+                          <input class="" type="radio" name="rate" value="0">
+                  </form>
+               </div>
+                   <p>
+                   </p>
+                   <p class="btn btn-light">Hardcover {{ object.new_book_hardcover_price }}</p>
+                   <div>
+                       <h4>Available</h4>
+                          {% if object.new_book_hardcover_qty is not 0 %}
+                        <p style="color: blue;">{{ object.new_book_hardcover_qty}} by Hard Cover <span style="color: red;"> - ${{object.new_book_hardcover_price}}</span></p>
+                          {% endif %}
+                          {% if object.old_book_hardcover_qty is not 0 %}
+                        <p style="color: blue;">{{ object.old_book_hardcover_qty}} by Old Cover <span style="color: red;"> - ${{object.old_book_hardcover_price }}</span></p>
+                          {% endif %}
+                          {% if object.new_book_paperback_qty is not 0 %}
+                        <p style="color: blue;">{{ object.new_book_paperback_qty }} by Paper back <span style="color: red;"> - ${{object.new_book_paperback_price }}</span></p>
+                          {% endif %}
+                   </div>
+                   <div class="review">
+                       <h5>Review</h5>
+                       <p class="book-description">
+                           {{ object.description }}
+                       </p>
+                   </div>
+               </div>
+           </div>
+           <div class="pro_de">
+               <h5 class="mb-3">Product Details</h5>
+               <p><strong>Item Weight: </strong><span>45g</span></p>
+               <p><strong>Hardcover : </strong><span>4342 pages</span></p>
+               <p><strong>Language : </strong><span>English</span></p>
+               <p><strong>Ratings : </strong>
+               <span>
+                       <i class="fa fa-star"></i>
+                       <i class="fa fa-star"></i>
+                       <i class="fa fa-star"></i>
+                       <i class="fa fa-star"></i>
+                       <span> 4.5 ratings</span>
+                   </span>
+               </p>
+           </div>
+       </div>
+         <div class="buy_book col-md-5 col col-xs-12">
+           <div>
+               <form action="{% url 'cart:cart_add' book_id=object.pk %}" method="post" name="add_to_cart_form">
+                   {% if object.new_book_hardcover_qty is not 0 %}
+                      <div class="form-group">
+                          <label> New Book Hard Cover Quantity - <strong>{{ object.new_book_hardcover_qty }}</strong> Available</label>
+                       <input type="number" name="hardcover_qty"  max="{{ object.new_book_hardcover_qty }}" min="0" class="form-control" value="1">
+                      </div>
+                   {% endif %}
+                    {% if object.old_book_hardcover_qty is not 0 %}
+                      <div class="form-group">
+                       <label> New Book Hard Cover Quantity - {{ object.old_book_hardcover_qty }} Available</label>
+                       <input type="number" value="0" name="usedhardcover_qty" max="{{ object.old_book_hardcover_qty }}" min="0" class="form-control" >
+                      </div>
+                   {% endif %}
+                   {% if object.new_book_paperback_qty is not 0 %}
+                      <div class="form-group">
+                       <label> New Book Hard Cover Quantity - {{ object.new_book_paperback_qty }} Available</label>
+                       <input type="number" value="0" name="paperback_qty" max="{{ object.new_book_paperback_qty }}" min="0" class="form-control">
+                      </div>
+                   {% endif %}
+                   <input type="hidden" value="False" name="override">
+                   {% csrf_token %}
+                   <button class="btn btn-warning" type="submit" name="add_to_cart">Add to Cart</button>
+               </form>
+                <a href="{% url 'orders:order_checkout' %}" class="my-3"><button class="btn btn-success" type="submit" name="buy_now">Buy Now</button></a>
+               <button class="btn btn-primary mt-3">Contact For Special Offer</button>
+           </div>
+       </div>
+   </div>
+{% endblock %}

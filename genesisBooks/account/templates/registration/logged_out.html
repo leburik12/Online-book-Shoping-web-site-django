@@ -1,0 +1,29 @@
+{% extends 'base_account.html' %}
+
+{% block inline-style %}
+<style>
+    a {
+     text-decoration: none;
+    }
+    a:hover {
+    text-decoration: none;
+    color: #FFB420;;
+    }
+</style>
+
+{% endblock %}
+
+
+{% block title %}
+    Genesis Book Store - Log Out
+{% endblock %}
+
+
+{% block account_content %}
+  <h2 class="container mb-3">Logged Out</h2>
+  <div class="logged-out container">
+      <p>You have been successfully logged out.
+      You can <a href="{% url 'account:login' %}">log-in again</a>
+      </p>
+  </div>
+{% endblock %}

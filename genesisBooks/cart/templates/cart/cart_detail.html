@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Genesis Book Store {% endblock %}
+
+{% block another_link %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block sidebar %}
+   <section class="side-bar col-md-2">
+       {% include 'books/helper/sidebar_filter.html' %}
+   </section>
+{% endblock %}
+   {% block content %}
+        <section id="cart_form_and_button" class="ml-5">
+            <table class="table table-striped table-hover">
+                <thead class="table-inverse">
+                  <tr>
+                      <th>Image</th>
+                      <th>Name</th>
+                      <th>Quantity</th>
+                      <th>Remove</th>
+                      <th>Unit Price</th>
+                      <th>Price</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                  {% for item in cart %}
+                     {% with book=item.book %}
+                     <tr class="my_cart_table">
+                         <td>
+                             <a href="#">
+                                 <img src="{{ book.book_image.url }}" width="100" height="100">
+                             </a>
+                         </td>
+                         <td>{{ book.title }}</td>
+                         <td>{{ item.total_qty }}</td>
+                         <td>
+                             <form method="post">
+                                 <button id='remove_from_cart_btn' class="btn btn-primary" data-id="{{ book.id }}">Remove</button>
+                                 {% csrf_token %}
+                             </form>
+                         </td>
+                         <td>${{ item.total_price }}</td>
+                         <td>${{ item.total_price }}</td>
+                     </tr>
+                     <tr>
+                         <div class="d-none alert alert-danger" id="remove_item_error">
+                             Abebe
+                         </div>
+                     </tr>
+                   {% endwith %}
+                  {% endfor %}
+                  </tbody>
+
+                <tfoot>
+                 <tr class="table-inverse">
+                     <td colspan="5">Price</td>
+                     <td id="cart_total_price">$ {{ cart.get_total_price }}</td>
+                 </tr>
+                </tfoot>
+            </table>
+              <a href="{% url 'books:books_total_page' %}"><button class="btn btn-outline-primary">Continue Shoping</button></a>
+              <a href="{% url 'orders:order_checkout' %}"><button class="btn btn-primary">Checkout</button></a>
+        </section>
+   {% endblock %}
+
+{% block domready %}
+        let block_request = false;
+
+        function AjaxUpdateCartContent(event) {
+              event.preventDefault();
+              if (block_request === false) {
+              block_request === true;
+              var book_id = $(event.target).data('id');
+               let cart_quantity = $('.item-quantity');
+               let current_cart_quantity = parseInt(cart_quantity.text());
+               let current_totalprice = $('#cart_total_price');
+               let total_price = current_totalprice.text().slice(2, current_totalprice.text().length) ;
+
+               $.post('{% url "cart:cart_remove" %}',
+                 {
+                   book_id: book_id
+                  },
+                 function(data) {
+                    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
+                    if( data['message'] === 'ok' && data['status'] === 200 ) {
+                      let cart_content = data['cart_content'];
+                      let removed_qty = cart_content['removed_qty'];
+                      let removed_amount = parseInt(cart_content['removed_amount']);
+                          current_cart_quantity -= removed_qty;
+                      cart_quantity.text(`${current_cart_quantity}`);
+                      total_price -= removed_amount;
+                      current_totalprice.text(`$ ${total_price}`)
+                      $(event.target).closest('.my_cart_table').remove();
+                      block_request === false;
+                   } else {
+                      console.log('Error message');
+                     block_request === false;
+                    }
+                 }
+               )
+         }
+       }
+
+<!--        $('.my_cart_table').each( () => {-->
+<!--           $(this).on('click',AjaxUpdateCartContent )-->
+<!--        })-->
+        $('.my_cart_table').on('click', AjaxUpdateCartContent );
+{% endblock %}

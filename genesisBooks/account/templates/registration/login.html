@@ -1,0 +1,42 @@
+{% extends 'base_account.html' %}
+{% load bootstrap4 %}
+
+ {% block inline-style %}
+    <style>
+     form {
+       width: 70%;
+    }
+    @media screen and (max-width: 568px) {
+      form {
+       width: 100%;
+    }
+     }
+    </style>
+ {% endblock %}
+
+ {% block title %}
+     Genesis Book Store - Login
+ {% endblock %}
+
+
+ {% block account_content %}
+    <h1 class="container"> Log-In </h1>
+    {% if form.errors %}
+      <p class="container">
+          Your user name and password didn't match
+      </p>
+    {% else %}
+      <p class="container">Please use the following from to log-in: <br><small>you can use your email instead of username</small></p>
+    {% endif %}
+    <div class="login-form container mt-3">
+        <form action="" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+
+            <input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;log-in&nbsp;&nbsp;&nbsp;&nbsp;" class="btn btn-warning">
+            &nbsp;&nbsp;&nbsp;
+        </form>
+        <a href="{% url 'account:password_reset' %}" class="btn btn-outline-seconday">Forgot My Password</a>
+    </div>
+{% endblock %}
+

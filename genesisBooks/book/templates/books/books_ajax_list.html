@@ -1,0 +1,16 @@
+
+
+{% for book in all_books %}
+  <div class="single-book">
+      <a href="{% url 'books:book_detail_page' slug=book.slug pk=book.id %}" data-id="{{ book.pk }}">
+          <div class="card-b">
+              <img src="{{ book.book_image.url }}">
+                 <p><strong>{{ book.title }}</strong></p>
+                   <p>{{ book.author }}</p>
+                       <p class="type item-light">Package Cover</p>
+                         <p class="price item-light">${{ book.new_book_hardcover_price }}</p>
+                      <p class="ml-auto quantity items-left">({{ book.new_book_hardcover_qty }})</p>
+          </div>
+      </a>
+  </div>
+{% endfor %}

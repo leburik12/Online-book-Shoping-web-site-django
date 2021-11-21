@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Genesis Book Store {% endblock %}
+{% block another_link %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+{% endblock %}
+   {% block sidebar %}
+    <section class="side-bar col-md-2">
+    {% include "books/helper/sidebar_filter.html" %}
+       </section>
+   {% endblock %}
+
+{% block content %}
+     <section class="not-side-bar col-md-10">
+            <div class="ad row">
+               <div class="col-md-4 col-xs-12 books-of-life-time">
+                   <h4 class="mb-3">Books to read in life time</h4>
+                   <a href="">
+                   <div class="img-card">
+                       <img src="/media/book_images/2020/11/20/photo_2020-02-25_13-58-02.jpg" width="200" height="250">
+                       <div class="image-descr">
+                           <p class="container">
+                               Books to read in a life time
+                           </p>
+                       </div>
+                   </div>
+                       </a>
+               </div>
+               <div class="col-md-8 col-xs-12 paid-ad">
+                  <h1>.</h1>
+               </div>
+           </div>
+      <!--   Hot new Releases    -->
+
+
+           <div class="content ml-4">
+             <div class="books_you_may_have_missed">
+                <div class="d-flex"><h4 class="mb-3 mr-auto item-bt" >Hot New Releases</h4><span class="item-bt ">
+                     <a href="{% url 'books:books_total_page' %}" style="color: blue;">See more </a>
+                 </span></div>
+                 <div class="book_card_container">
+
+                    {% for book in object_list %}
+                       <div class="single-book">
+                        <a href="{% url 'books:book_detail_page' slug=book.slug pk=book.pk %}" data-id="{{ book.pk }}">
+                           <div class="card-b">
+                             <img src="{{ book.book_image.url }}">
+                            <p><strong>{{ book.title }}</strong></p>
+                            <p>{{ book.author }}</p>
+                               <p class="type item-light">Package Cover</p>
+                          <p class="price item-light">${{ book.new_book_hardcover_price }}</p>
+                          <p class="ml-auto quantity items-left">({{ book.new_book_hardcover_qty }})</p>
+                        </div>
+                        </a>
+                       </div>
+                     {% endfor %}
+
+                 </div>
+             </div>
+           </div>
+
+
+         <div class="content ml-4">
+             <div class="books_you_may_have_missed">
+                <div class="d-flex"><h4 class="mb-3 mr-auto item-bt" >Best Seller Books</h4><span class="item-bt ">
+                     <a href="{% url 'books:books_by_best_seller' 'best_seller' %}" style="color: blue;">See more </a>
+                 </span></div>
+                 <div class="book_card_container">
+
+                    {% for book in best_seller_books %}
+                       <div class="single-book">
+                        <a href="{% url 'books:book_detail_page' slug=book.slug pk=book.pk %}" data-id="1">
+                           <div class="card-b">
+                             <img src="{{ book.book_image.url }}">
+                            <p><strong>{{ book.title }}</strong></p>
+                            <p>{{ book.author }}</p>
+                               <p class="type item-light">Package Cover</p>
+                          <p class="price item-light">${{ book.new_book_hardcover_price }}</p>
+                          <p class="ml-auto quantity items-left">({{ book.new_book_hardcover_qty }})</p>
+                        </div>
+                        </a>
+                       </div>
+                     {% endfor %}
+
+                 </div>
+             </div>
+           </div>
+
+
+           <div class="content ml-4">
+             <div class="books_you_may_have_missed">
+                <div class="d-flex"><h4 class="mb-3 mr-auto item-bt" >Best Rated Books</h4><span class="item-bt ">
+                     <a href="#" style="color: blue;">See more </a>
+                 </span></div>
+                 <div class="book_card_container">
+
+                    {% for book in best_rated_books %}
+                       <div class="single-book">
+                        <a href="{% url 'books:book_detail_page' slug=book.slug pk=book.pk %}" data-id="{{ book.pk }}">
+                           <div class="card-b">
+                             <img src="{{ book.book_image.url }}">
+                            <p><strong>{{ book.title }}</strong></p>
+                            <p>{{ book.author }}</p>
+                               <p class="type item-light">Package Cover</p>
+                          <p class="price item-light">${{ book.new_book_hardcover_price }}</p>
+                          <p class="ml-auto quantity items-left">({{ book.new_book_hardcover_qty }})</p>
+                        </div>
+                        </a>
+                       </div>
+                     {% endfor %}
+
+                 </div>
+             </div>
+           </div>
+
+       </section>
+{% endblock %}
+   <h1>{{ query }}</h1>
+{% block footer %}
+<footer class="footer">
+
+    <div class="footer-wrapper">
+        <h6>Back to top</h6>
+        <div>
+          <div class="footer-divider">
+            <div>
+                <h5>About us</h5>
+                <p>Who is Genesis</p>
+                <p>Investors Relationship</p>
+                <p>Careers</p>
+                <p>Careers</p>
+            </div>
+            <div>
+                <h5>Make money with us</h5>
+                <p>Sell on Genesis</p>
+                <p>Self Publish with us</p>
+                <p>Advertise on Genesis</p>
+                 <p>Careers</p>
+            </div>
+          </div>
+            <p class="copyright cp">&copy 2020 - 2400 genesis.com Inc or Affliates</p>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

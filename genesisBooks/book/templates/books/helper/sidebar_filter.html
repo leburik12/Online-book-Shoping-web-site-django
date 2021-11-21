@@ -1,0 +1,88 @@
+
+
+           <div class="new-releases">
+              <h4><a href="#">New Releases</a></h4>
+                     <div>
+                         {% for book in object_list %}
+                       <p><a href="{% url 'books:book_detail_page' slug=book.slug pk=book.pk %}">{{ book.title}}</a></p>
+                         {% endfor %}
+             </div>
+           </div>
+           <div class="best-sellers">
+               <h4><a href="">Best Sellers</a></h4>
+            <div>
+                      {% for book in best_seller_books  %}
+                        <p><a href="{% url 'books:book_detail_page' slug=book.slug pk=book.pk %}">{{ book.title }}</a> </p>
+                      {% endfor %}
+                </div>
+           </div>
+
+           <div class="authors">
+               <h4>Authors</h4>
+               <div>
+                   {% for author in new_releases_authors %}
+                   <a href="{% url 'books:books_by_author' author %}"><p>{{author}}</p></a>
+                   {% endfor %}
+             </div>
+           </div>
+
+           <div class="books">
+                <h4><a href="#">Books</a></h4>
+               <div id="books_catg">
+                        <p> <a href="{% url 'books:all_books' 'all_books' %}">All Books</a> </p>
+                        <p> <a href="{% url 'books:catg_books_total_page' 'Arts and Philosophy' %}">Arts and Philosophy</a> </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Biographies & Memories' %}">Biographies & Memories</a> </p>
+                       <p> <a href="{% url 'books:catg_books_total_page' 'Business & Money' %}">Buisness & Money</a> </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Calendar' %}">Calendar</a> </p>
+                       <p> <a href="{% url 'books:catg_books_total_page' 'Childrens Books' %}">Children's Books</a> </p>
+                       <p> <a href="{% url 'books:catg_books_total_page' 'Christian Books & Bibles' %}">Christian Books & Bibles</a> </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Comics & Graphic Novels' %}">Comics & Graphic Novels</a>  </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Computer & Technology' %}">Computer & Technology</a> </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Cookbooks, Food & Wine' %}">Cookbooks, Food & Wine</a> </p>
+                       <p> <a href="{% url 'books:catg_books_total_page' 'History' %}">History</a> </p>
+                       <p> <a href="{% url 'books:catg_books_total_page' 'Law' %}">Law</a> </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Literature & Fiction' %}">Literature & Fiction</a> </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Medical Books' %}">Medical Books</a> </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Romance' %}">Romance</a> </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Science & Math' %}">Science & Math</a> </p>
+                        <p><a href="{% url 'books:catg_books_total_page' 'Sport & Outdoors' %}">Sport & Outdoors</a> </p>
+                       <p> <a href="{% url 'books:catg_books_total_page' 'Test preparation' %}">Test preparation</a> </p>
+                   </div>
+           </div>
+           <div class="condition">
+               <h4>Conditions</h4>
+             <div>
+                      <p>  <a href="{% url 'books:condition_books_total_page' 'new' %}">New</a> </p>
+                       <p> <a href="{% url 'books:condition_books_total_page' 'used' %}">Used</a> </p>
+              </div>
+           </div>
+
+           </div>
+
+           <div class="customer-reviews">
+             <h2>Average Customer Reviews</h2>
+               <div id="ratings_main">
+                   <p>
+                       <a class="4">
+                           <i class="fa fa-star-half"></i>
+                           <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>&up
+                       </a>
+                   </p>
+                  <p>
+                       <a class="3">
+                           <i class="fa fa-star-half"></i>
+                           <i class="fa fa-star"></i>
+                           <i class="fa fa-star"></i>&up
+                       </a>
+                    </p>
+                <p>
+                       <a class="2">
+                           <i class="fa fa-star-half"></i>
+                           <i class="fa fa-star"></i>&up
+                       </a>
+                   </p>
+               </div>
+           </div>
+

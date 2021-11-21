@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Genesis Book Store {% endblock %}
+{% block another_link %}
+<link href="{% static 'css/index.css' %}" rel="stylesheet">
+{% endblock %}
+{% block sidebar %}
+    <section class="side-bar col-md-2">
+        {% include 'books/helper/sidebar_filter.html' %}
+    </section>
+{% endblock %}
+      {% block content %}
+     <section class="not-side-bar col-md-10">
+      <!--   Hot new Releases    -->
+           <div class="content ml-4">
+             <div class="books_you_may_have_missed">
+                 {% if message == 'success_db' %}
+                 <div class="book_card_container" id="my_books">
+                     {% include 'books/books_ajax_list.html' %}
+                 </div>
+                 {% else %}
+                    <div class="jumbotron container">
+                        <h2>Book Not Found</h2>
+                    </div>
+                 {% endif %}
+             </div>
+           </div>
+       </section>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer">
+    <div class="footer-wrapper">
+        <h6>Back to top</h6>
+        <div>
+          <div class="footer-divider">
+            <div>
+                <h5>About us</h5>
+                <p>Who is Genesis</p>
+                <p>Investors Relationship</p>
+                <p>Careers</p>
+                <p>Careers</p>
+            </div>
+            <div>
+                <h5>Make money with us</h5>
+                <p>Sell on Genesis</p>
+                <p>Self Publish with us</p>
+                <p>Advertise on Genesis</p>
+                 <p>Careers</p>
+            </div>
+          </div>
+            <p class="copyright cp">&copy 2020 - 2400 genesis.com Inc and its Affiliates</p>
+        </div>
+    </div>
+</footer>
+{% endblock %}
+
+{% block domready %}
+
+     let page = 1;
+     let empty_page = false;
+     let block_request = false;
+
+    $(window).scroll(function(){
+
+        let margin = $(document).height() - $(window).height() - 400;
+        if($(window).scrollTop() > margin && empty_page === false && block_request == false) {
+            block_request = true;
+            page += 1;
+            $.get('?page=' + page, function(data) {
+             if(data == '') {
+              empty_page = true;
+              }
+             else {
+                 block_request = false;
+                 $('#my_books').append(data);
+             };
+            });
+        };
+    });
+
+<!--   $('#ratings_main p').each(function() {-->
+<!--       $(this).click(function() {-->
+<!--            let rating_value = $(this).children().attr('class');-->
+<!--            let url = 'http://127.0.0.1:8000/books/';-->
+<!--            $.get('?rating='+rating_value, function(data) {-->
+<!--                   console.log(data);-->
+<!--                   $('#my_books').empty();-->
+<!--                   $('#my_books').append(data);-->
+<!--            })-->
+<!--      console.log($(this).children().attr('class'));-->
+<!--     });-->
+<!--   });-->
+{% endblock %}

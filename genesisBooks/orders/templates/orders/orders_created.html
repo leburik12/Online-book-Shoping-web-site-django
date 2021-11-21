@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block not_main %}
+    <div class="container">
+        <h1>Thank You from GenesisBooks</h1>
+        <p>
+            Your orders has been successfully completed. You order number is
+            <strong>{{ order.id }}</strong>
+        </p>
+        <p>You will receive a contact from customer service soon.</p>
+    </div>
+{% endblock %}

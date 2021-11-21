@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/fa/css/all.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <style>
+        .active {
+           font-size: 2rem;
+        }
+        .order_container {
+           flex-direction: row-reverse;
+        }
+    </style>
+    {% block another_link %}{% endblock %}
+</head>
+<body>
+   <!-- Nav bar   -->
+   <div id="nav-bar">
+      <nav class="main-nav-bar">
+          <a href="{% url 'landing_page' %}">
+           <p class="logo">
+              <i class="fa fa-book-reader fa-2x"></i>
+              <span id="text-logo"><strong>Genesis</strong></span>
+           </p>
+          </a>
+          <div class="search_wrapper">
+              <div id="main-search">
+<!--                  <i class="fa fa-angle-down"></i>-->
+                  {% block form_content %}
+                    {% include 'search_page.html' %}
+                  {% endblock %}
+              </div>
+          </div>
+          <p class="cart">
+
+                <a href="{% url 'cart:cart_detail' %}">
+                    <i class="fa fa-cart-plus">
+                        <span class="item-quantity">
+                            {% with total_items=cart|length %}
+                              {% if total_items > 0 %}
+                                {{ cart|length }}
+                               {% else %}
+                            <span style="font-size: 6px;margin-left: 10px;">Empty</span>
+                              {% endif %}
+                            {% endwith %}
+                        </span>
+                    </i>
+                </a>
+
+          </p>
+      </nav>
+
+       <div class="nav-bar">
+           <ul>
+               <li>
+                   {% if request.user.is_authenticated %}
+                   <small style="color: white;">Hello {{ request.user.first_name }}</small>
+                   <a href="{% url 'account:logout' %}">-Log-out</a>
+                   {% else %}
+                   <a href="{% url 'account:login' %}">Log-In &nbsp;/&nbsp;</a>
+                   <a href="#">Sign Up</a>
+                   {% endif %}
+               </li>
+               <li>
+                   {% if request.user.is_authenticated %}
+                   <a href="{% url 'account:password_change' %}"><i class="fa fa-user"></i></a>
+                   {% else %}
+                   <a href="#">New Releases</a>
+                   {% endif %}
+
+               </li>
+                <li>
+                   <a href="#"> Sell</a>
+               </li>
+               <li>
+                   <a href="#"> Customer Service</a>
+               </li>
+               <li>
+                   <a href="#">Buy Again</a>
+               </li>
+               <li>
+                   <a href="#">Contact</a>
+               </li>
+           </ul>
+       </div>
+   </div>
+<!--   <div class="container jumbotron">-->
+
+<!--   </div>-->
+ {% block not_main %}
+
+ {% endblock %}
+   <main class="row" id="main-rw">
+ {% block sidebar %} {% endblock %}
+
+{% block content %} {% endblock %}
+
+   </main>
+{% block footer %} {% endblock %}
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/js.cookie.min.js' %}"></script>
+<!--   <script>-->
+<!--     $('#books_catg a').click(function() {-->
+<!--              $('a.active').removeClass('active');-->
+<!--              $(this).addClass('active');-->
+<!--            })-->
+
+<!--  </script>-->
+   <script>
+   var csrftoken = Cookies.get('csrftoken');
+
+   function csrfSafeMethod(method) {
+      // these HTTP Methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+   }
+   $.ajaxSetup ({
+      beforeSend: function(xhr, settings) {
+          if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken)
+          }
+      }
+   })
+    $(document).ready(function(){
+      {% block domready %}
+
+      {% endblock %}
+   });
+  </script>
+
+</body>
+</html>
